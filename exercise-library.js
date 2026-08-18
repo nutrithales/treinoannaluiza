@@ -1,0 +1,40 @@
+// Biblioteca padrão de exercícios - Treinamento v1
+// 300 exercícios organizados por grupo muscular. Vídeos podem ser preenchidos depois sem alterar os IDs.
+const EXERCISE_GROUPS = {
+  "Peito": `Supino reto com barra|Supino reto com halteres|Supino inclinado com barra|Supino inclinado com halteres|Supino declinado com barra|Supino declinado com halteres|Supino máquina horizontal|Supino máquina inclinado|Supino convergente|Chest press unilateral|Flexão de braços|Flexão com mãos elevadas|Flexão com pés elevados|Flexão com carga|Flexão fechada|Crucifixo reto com halteres|Crucifixo inclinado com halteres|Crucifixo declinado com halteres|Crucifixo máquina peck deck|Crossover polia alta|Crossover polia média|Crossover polia baixa|Crossover unilateral|Press no cabo unilateral|Squeeze press com halteres|Pullover com halter|Pullover no cabo|Supino reto Smith|Supino inclinado Smith|Supino declinado Smith`,
+  "Costas": `Puxada frontal pronada|Puxada frontal supinada|Puxada frontal neutra|Puxada barra H neutra|Puxada unilateral no cabo|Puxada articulada unilateral|Puxada máquina convergente|Barra fixa pronada|Barra fixa supinada|Barra fixa neutra|Barra fixa assistida|Remada curvada com barra|Remada curvada supinada|Remada Pendlay|Remada cavalinho T-bar|Remada T-bar apoiada|Remada unilateral com halter|Remada serrote com halter|Remada baixa triângulo|Remada baixa pronada|Remada baixa supinada|Remada baixa unilateral|Remada máquina articulada|Remada máquina pegada neutra|Remada máquina pegada pronada|Remada apoiada no banco inclinado|Remada com halteres no banco inclinado|Remada no Smith|Remada no cabo em pé|Pulldown braços estendidos|Pullover no cabo para dorsais|Pullover máquina|Face pull para dorsais|Scapular pull-up|Encolhimento escapular na barra`,
+  "Ombros": `Desenvolvimento militar com barra|Desenvolvimento com halteres sentado|Desenvolvimento com halteres em pé|Desenvolvimento no Smith|Desenvolvimento máquina|Desenvolvimento máquina unilateral|Arnold press|Landmine press unilateral|Push press|Elevação lateral com halteres|Elevação lateral sentado|Elevação lateral inclinada|Elevação lateral no cabo|Elevação lateral unilateral no cabo|Elevação lateral máquina|Elevação lateral parcial|Elevação frontal com halteres|Elevação frontal com barra|Elevação frontal no cabo|Elevação frontal com anilha|Crucifixo inverso com halteres|Crucifixo inverso máquina|Crucifixo inverso no cabo|Face pull|Remada alta com barra|Remada alta no cabo|Remada alta com halteres|Y-raise inclinado|Y-raise no cabo|Scaption com halteres`,
+  "Quadríceps": `Agachamento livre com barra|Agachamento frontal|Agachamento high bar|Agachamento low bar|Agachamento no Smith|Agachamento goblet|Agachamento com halteres|Agachamento caixa|Agachamento pausado|Agachamento com calcanhar elevado|Hack squat máquina|Hack squat reverso|Leg press 45|Leg press horizontal|Leg press unilateral|Cadeira extensora|Cadeira extensora unilateral|Sissy squat|Sissy squat máquina|Passada à frente com halteres|Passada à frente com barra|Passada reversa com halteres|Passada reversa no Smith|Afundo estático|Afundo búlgaro com halteres|Afundo búlgaro no Smith|Step-up com halteres|Step-up no Smith|Split squat|Spanish squat|Wall sit|Belt squat|Landmine squat|Cyclist squat|Pistol squat assistido`,
+  "Posterior de coxa": `Levantamento terra romeno com barra|Levantamento terra romeno com halteres|Levantamento terra romeno no Smith|Levantamento terra romeno unilateral|Stiff com barra|Stiff com halteres|Stiff no Smith|Mesa flexora|Mesa flexora unilateral|Cadeira flexora|Cadeira flexora unilateral|Flexora em pé unilateral|Flexora ajoelhada|Flexão nórdica|Flexão nórdica assistida|Good morning com barra|Good morning no Smith|Pull-through no cabo|Glute ham raise|Back extension 45 graus foco posterior|Extensão de quadril banco romano|Kettlebell swing|Swing com halter|Single-leg deadlift com halter|Single-leg deadlift no cabo`,
+  "Glúteos": `Hip thrust com barra|Hip thrust máquina|Hip thrust no Smith|Hip thrust unilateral|Glute bridge com barra|Glute bridge no chão|Glute bridge unilateral|Abdução de quadril máquina|Abdução de quadril no cabo|Abdução lateral deitado|Caminhada lateral com miniband|Monster walk com miniband|Coice no cabo|Coice máquina|Coice quatro apoios|Extensão de quadril no banco|Reverse hyperextension|Step-up alto|Passada caminhando com halteres|Curtsy lunge|Sumo squat com halter|Agachamento sumô com barra|Sumo deadlift|Frog pump|Hip extension no cabo`,
+  "Bíceps": `Rosca direta com barra|Rosca direta barra W|Rosca direta no cabo|Rosca direta máquina|Rosca alternada com halteres|Rosca simultânea com halteres|Rosca martelo alternada|Rosca martelo simultânea|Rosca martelo com corda|Rosca inclinada com halteres|Rosca Scott com barra W|Rosca Scott com halteres|Rosca Scott máquina|Rosca concentrada|Rosca spider com barra|Rosca spider com halteres|Rosca bayesian no cabo|Rosca unilateral no cabo|Rosca inversa com barra|Rosca Zottman`,
+  "Tríceps": `Tríceps corda na polia|Tríceps barra reta na polia|Tríceps barra V na polia|Tríceps unilateral no cabo|Tríceps francês com halter|Tríceps francês unilateral|Tríceps francês com barra W|Tríceps testa com barra W|Tríceps testa com halteres|Tríceps testa no cabo|Tríceps coice com halter|Tríceps coice no cabo|Supino fechado com barra|Supino fechado no Smith|Mergulho em paralelas|Mergulho assistido|Mergulho no banco|Extensão de tríceps acima da cabeça no cabo|Extensão de tríceps máquina|Flexão diamante`,
+  "Panturrilhas": `Panturrilha em pé máquina|Panturrilha sentado máquina|Panturrilha no leg press 45|Panturrilha no leg press horizontal|Panturrilha no Smith em pé|Panturrilha com halteres em pé|Panturrilha unilateral em pé|Panturrilha donkey|Panturrilha sentado com barra|Panturrilha sentado com halter|Panturrilha no hack squat|Panturrilha em degrau|Panturrilha unilateral no leg press|Panturrilha em pé com pausa|Tibial anterior na máquina`,
+  "Core": `Prancha frontal|Prancha lateral|Prancha lateral com elevação|Prancha RKC|Dead bug|Bird dog|Pallof press|Pallof press ajoelhado|Pallof press com passo lateral|Crunch abdominal|Crunch no cabo|Crunch máquina|Crunch reverso|Elevação de pernas deitado|Elevação de joelhos na barra|Elevação de pernas na barra|Ab wheel rollout|Rollout na bola suíça|Hollow body hold|Hollow rock|Russian twist|Woodchop alto para baixo|Woodchop baixo para alto|Suitcase carry|Farmer carry`,
+  "Trapézio e pescoço": `Encolhimento com barra|Encolhimento com halteres|Encolhimento no Smith|Encolhimento no cabo|Encolhimento máquina|High pull com barra|Farmer walk pesado|Trap-3 raise|Flexão cervical isométrica|Extensão cervical isométrica`,
+  "Adutores e abdutores": `Adução de quadril máquina|Adução de quadril no cabo|Copenhagen plank|Copenhagen plank assistido|Agachamento lateral|Cossack squat|Abdução em pé no cabo|Abdução máquina tronco inclinado|Abdução máquina tronco ereto|Clamshell com miniband`,
+  "Antebraço e pegada": `Rosca punho com barra|Rosca punho inversa|Rosca punho com halteres|Desvio radial com halter|Pronação de antebraço com halter|Supinação de antebraço com halter|Dead hang|Plate pinch|Farmer carry com pegada grossa|Wrist roller`,
+  "Levantamentos e corpo inteiro": `Levantamento terra convencional|Levantamento terra sumô|Levantamento terra com trap bar|Levantamento terra em déficit|Levantamento terra em bloco|Rack pull|Clean pull|Power clean|Hang power clean|Sled push`
+};
+
+const slugifyExercise = (value) => value
+  .normalize('NFD')
+  .replace(/[\u0300-\u036f]/g, '')
+  .toLowerCase()
+  .replace(/[^a-z0-9]+/g, '-')
+  .replace(/^-+|-+$/g, '');
+
+window.EXERCISE_LIBRARY = Object.entries(EXERCISE_GROUPS)
+  .flatMap(([grupo, nomes]) => nomes.split('|').map((nome) => ({ nome, grupo })))
+  .map((exercise, index) => ({
+    id: `ex${String(index + 1).padStart(3, '0')}`,
+    slug: slugifyExercise(exercise.nome),
+    nome: exercise.nome,
+    grupo: exercise.grupo,
+    ativo: true,
+    video_url: ''
+  }));
+
+if (window.EXERCISE_LIBRARY.length !== 300) {
+  console.error(`Biblioteca inválida: esperado 300 exercícios, encontrados ${window.EXERCISE_LIBRARY.length}.`);
+}
