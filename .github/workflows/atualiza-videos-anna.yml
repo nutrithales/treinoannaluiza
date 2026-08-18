@@ -1,0 +1,66 @@
+name: Atualiza videos Anna
+
+on:
+  push:
+    paths:
+      - '.github/workflows/atualiza-videos-anna.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  update-videos:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Substituir pesquisas por videos diretos
+        shell: python
+        run: |
+          from pathlib import Path
+          p = Path('index.html')
+          text = p.read_text(encoding='utf-8')
+          replacements = {
+            'https://www.youtube.com/results?search_query=hip+thrust+com+barra': 'https://youtu.be/MxrBskXjVHU',
+            'https://www.youtube.com/results?search_query=levantamento+terra+romeno+halteres': 'https://www.youtube.com/watch?v=dOK4eDkmgjo',
+            'https://www.youtube.com/results?search_query=abdu%C3%A7%C3%A3o+de+quadril+m%C3%A1quina': 'https://youtu.be/iGd7fQffkkM',
+            'https://www.youtube.com/results?search_query=leg+press+45': 'https://youtu.be/mJSsWpuyiCM',
+            'https://www.youtube.com/results?search_query=panturrilha+leg+press': 'https://youtu.be/oRRs1bGzimM',
+            'https://www.youtube.com/results?search_query=cadeira+extensora': 'https://youtu.be/G0_M9LBCT0o',
+            'https://www.youtube.com/results?search_query=mesa+flexora': 'https://youtu.be/m4KB9-Uo4Kc',
+            'https://www.youtube.com/results?search_query=farmer+walk': 'https://youtu.be/Fkzk_RqlYig',
+            'https://www.youtube.com/results?search_query=puxada+neutra+barra+h': 'https://youtu.be/uMjeHo2_EwM',
+            'https://www.youtube.com/results?search_query=face+pull': 'https://youtu.be/Ana4dJbCvxE',
+            'https://www.youtube.com/results?search_query=remada+baixa+triangulo': 'https://youtu.be/y47HOtqxZkg',
+            'https://www.youtube.com/results?search_query=desenvolvimento+halteres+sentado': 'https://youtu.be/RGFdTZznnRs',
+            'https://www.youtube.com/results?search_query=eleva%C3%A7%C3%A3o+lateral+halteres': 'https://youtu.be/pg3hz43P09w',
+            'https://www.youtube.com/results?search_query=crucifixo+inverso+maquina': 'https://youtu.be/c32OxRaEhxM',
+            'https://www.youtube.com/results?search_query=triceps+corda+polia': 'https://youtu.be/tu2Q82-HMg0',
+            'https://www.youtube.com/results?search_query=rosca+alternada+halteres': 'https://youtu.be/S97e09rLmEU',
+            'https://www.youtube.com/results?search_query=pallof+press': 'https://youtu.be/VSJt89t4E_U',
+            'https://www.youtube.com/results?search_query=hack+machine': 'https://youtu.be/SOyO4LHjhX4',
+            'https://www.youtube.com/results?search_query=step+up+halteres': 'https://youtu.be/cP77gUDvAPA?t=745',
+            'https://www.youtube.com/results?search_query=hip+thrust+machine': 'https://youtu.be/ELgSmlwFsFQ',
+            'https://www.youtube.com/results?search_query=walking+lunge+halteres': 'https://youtu.be/LRgZFHceZGo',
+            'https://www.youtube.com/results?search_query=panturrilha+maquina': 'https://youtu.be/wrPN51LyOUE',
+          }
+          total = 0
+          for old, new in replacements.items():
+              n = text.count(old)
+              if n:
+                  print(f'{n}x {old} -> {new}')
+                  text = text.replace(old, new)
+                  total += n
+          if total == 0:
+              raise SystemExit('Nenhum URL antigo encontrado; nenhuma alteracao aplicada.')
+          p.write_text(text, encoding='utf-8')
+          print(f'Total de substituicoes: {total}')
+      - name: Commit da troca dos videos
+        run: |
+          git config user.name "Nutri Thales Automation"
+          git config user.email "nutri.thalesrosa@gmail.com"
+          git add index.html
+          git diff --cached --quiet && exit 0
+          git commit -m "Troca pesquisas do YouTube por videos diretos"
+          git push origin main
